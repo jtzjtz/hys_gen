@@ -1,1 +1,1 @@
-code 
+go get -insecure opsgit.ttjianbao.iner/framework/kit
