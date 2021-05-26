@@ -1,4 +1,4 @@
-FROM hub.xin.com/jtz/ubuntu-sloth:v4
+FROM ubuntu
 
 COPY ./output/app /data/web-app
 COPY ./*.sh /data/
