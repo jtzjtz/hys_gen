@@ -80,7 +80,7 @@ stages:
 #  tags:
 #    - app
   script:
-    - docker info
+#    - docker info
 #    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
     - docker login -u jtz -p Jtz.123456 hub.phpers.club
     - docker build -t "${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_BRANCH}:latest" .
