@@ -27,7 +27,7 @@ build:
 	-X main.BuildUser=$(shell whoami)@$(shell hostname) "\
 	  -o output/app
 
-.PHONY: test build
+#.PHONY: test build
 
 test2:
 	echo "-X ${PROJECT_PATH}/vendor/github.com/prometheus/common/version.Version=$(cat VERSION) \

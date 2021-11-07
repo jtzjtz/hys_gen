@@ -68,15 +68,15 @@ stages:
 
 发布镜像:
   stage: release
-  image: docker:latest
+#  image: docker:latest
   variables:
 #    DOCKER_DRIVER: overlay
 #    DOCKER_HOST: tcp://localhost:2375
 #    DOCKER_TLS_CERTDIR: ''
   #    CI_COMMIT_REF_NAME: v1.1
-  services:
-    - name: docker:17.03-dind
-      command: ["--insecure-registry=hub.phpers.club"]
+#  services:
+#    - name: docker:17.03-dind
+#      command: ["--insecure-registry=hub.phpers.club"]
 #  tags:
 #    - app
   script:
