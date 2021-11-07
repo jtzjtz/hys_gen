@@ -1,0 +1,173 @@
+image:
+  name: golang:latest
+  entrypoint: ["/bin/sh", "-c"]
+variables:
+  #  REPO_NAME: git.phpers.club/test/gitlab-ci-k8s-demo
+  #  CI_ENVIRONMENT_SLUG: dev
+  #  CI_REGISTRY_IMAGE: jtz/demo
+  CI_REGISTRY_IMAGE: "hub.phpers.club/jtz"
+  CI_REGISTRY: "hub.phpers.club"
+  CI_REGISTRY_DIR: "jtz"
+  IMAGE_PATH: ${CI_REGISTRY_IMAGE}/${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_BRANCH}:${CI_COMMIT_SHA}
+  PROJECT_PATH: $GOPATH/src/$CI_PROJECT_PATH
+
+# The problem is that to be able to use go get, one needs to put
+# the repository in the $GOPATH. So for example if your gitlab domain
+# is mydomainperso.com, and that your repository is repos/projectname, and
+# the default GOPATH being /go, then you'd need to have your
+# repository in /go/src/mydomainperso.com/repos/projectname
+# Thus, making a symbolic link corrects this.
+before_script:
+  #    - echo $GOPATH
+  #    - mkdir -p "${GOPATH}/src/$(dirname,${REPO_NAME}/${CI_PROJECT_NAMESPACE})"
+  #    - ln -sf "${CI_PROJECT_DIR}" "${GOPATH}/src/${REPO_NAME}/${CI_PROJECT_PATH}"
+  #    - cd "${GOPATH}/src/${REPO_NAME}/${CI_PROJECT_PATH}/"
+
+  - go env
+  - echo $IMAGE_PATH
+  - who
+  - mkdir -p $GOPATH/src/$(dirname $CI_PROJECT_PATH)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$CI_PROJECT_PATH
+  - cd $GOPATH/src/$CI_PROJECT_PATH
+  - go env -w GO111MODULE=on
+  - go env -w GOPROXY=https://goproxy.cn,direct
+stages:
+  - build
+  - release
+#  - deploy
+
+#test:
+#  stage: test
+#  variables:
+#    CI_DEBUG_TRACE: "true"
+#  script:
+#    - make test
+#
+#test2:
+#  stage: test
+#  script:
+#    - echo "We did it! Something else runs in parallel!"
+
+编译:
+  stage: build
+  variables:
+    CI_DEBUG_TRACE: "false"
+#    DOCKER_HOST: tcp://docker:2375/
+#    DOCKER_DRIVER: overlay2
+#    DOCKER_TLS_CERTDIR: ''
+  script:
+    # Add here all the dependencies, or use glide/govendor/...
+    # to get them automatically.
+#    - make test
+    - make build
+  artifacts:
+    paths:
+      - output
+#  tags:
+#    - app
+
+发布镜像:
+  stage: release
+  image: docker:latest
+  variables:
+#    DOCKER_DRIVER: overlay
+#    DOCKER_HOST: tcp://localhost:2375
+#    DOCKER_TLS_CERTDIR: ''
+  #    CI_COMMIT_REF_NAME: v1.1
+  services:
+    - name: docker:17.03-dind
+      command: ["--insecure-registry=hub.phpers.club"]
+#  tags:
+#    - app
+  script:
+    - docker info
+#    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - docker login -u jtz -p Jtz.123456 hub.phpers.club
+    - docker build -t "${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_BRANCH}:latest" .
+    - docker tag "${CI_PROJECT_PATH_SLUG}-${CI_COMMIT_BRANCH}:latest" "${IMAGE_PATH}"
+    - docker push "${IMAGE_PATH}"
+#deploy_review:
+#  image: cnych/kubectl
+#  stage: review
+#  #  only:
+#  #    - branches
+#  except:
+#    - tags
+#  #  environment:
+#  #    name: dev
+#  #    url: https://git.xin.com
+#  #    on_stop: stop_review
+#  #  variables:
+#
+#  script:
+#    - kubectl version
+#    - cd manifests/
+#    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__REF_NAME__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_REGISTRY__DIR/${CI_REGISTRY_DIR}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_COMMIT_BRANCH__/${CI_COMMIT_BRANCH}/" deployment.yaml ingress.yaml service.yaml
+#
+#    #    - __CI_REGISTRY__/__CI_REGISTRY__DIR/__CI_PROJECT_PATH_SLUG__-__CI_COMMIT_BRANCH__:__CI_COMMIT_SHA__
+#    - |
+#      if kubectl apply -f deployment.yaml | grep -q unchanged; then
+#          echo "=> Patching deployment to force image update."
+#          kubectl patch -f deployment.yaml -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"ci-last-updated\":\"$(date +'%s')\"}}}}}"
+#      else
+#          echo "=> Deployment apply has changed the object, no need to force image update."
+#      fi
+#    - kubectl apply -f service.yaml || true
+#    - kubectl apply -f ingress.yaml
+#    - kubectl rollout status -f deployment.yaml
+#    - kubectl get all,ing -l ref=${CI_COMMIT_BRANCH}
+
+#stop_review:
+#  image: cnych-kubectl:v1.0
+#  stage: review
+#  variables:
+#    GIT_STRATEGY: none
+#  when: manual
+##  only:
+##    - branches
+#  except:
+##    - master
+#    - tags
+#  environment:
+#    name: dev
+#    action: stop
+#  script:
+#    - kubectl version
+#    - kubectl delete ing -l ref=${CI_COMMIT_BRANCH}
+#    - kubectl delete all -l ref=${CI_COMMIT_BRANCH}
+
+#部署:
+#  image: cnych-kubectl:v1.0
+#  stage: deploy
+#  #  environment:
+#  #    name: live
+#  #    url: https://live-gitlab-k8s-demo.qikqiak.com
+#  #  only:
+#  #    - tags
+##  when: manual
+#  script:
+#    - kubectl version
+#    - cd manifests/
+#    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__REF_NAME__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_REGISTRY__DIR/${CI_REGISTRY_DIR}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml ingress.yaml service.yaml
+#    - sed -i "s/__CI_COMMIT_BRANCH__/${CI_COMMIT_BRANCH}/" deployment.yaml ingress.yaml service.yaml
+#
+#    - kubectl apply -f deployment.yaml
+#    - kubectl apply -f service.yaml
+#    - kubectl apply -f ingress.yaml
+#    - kubectl rollout status -f deployment.yaml
+#    - kubectl get all,ing -l ref=${CI_COMMIT_BRANCH}
