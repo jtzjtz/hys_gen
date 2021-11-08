@@ -37,4 +37,4 @@ COPY ./app/resource/ /data/app/resource/
 
 RUN chmod +x /data/web-app
 WORKDIR /data/
-CMD ["./web-app"]
+ENTRYPOINT ["./web-app"]
