@@ -10,7 +10,7 @@ metadata:
 #    kubernetes.io/ingress.class: "traefik"
 spec:
   rules:
-  - host: __CI_PROJECT_NAME__.__CI_COMMIT_BRANCH__.array.cool
+  - host: __CI_PROJECT_NAME__.__CI_COMMIT_BRANCH__.phpers.club
     http:
       paths:
       - path: /

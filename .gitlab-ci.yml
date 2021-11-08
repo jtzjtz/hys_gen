@@ -32,7 +32,7 @@ before_script:
 stages:
   - build
   - release
-#  - deploy
+  - deploy
 
 #test:
 #  stage: test
@@ -144,30 +144,30 @@ stages:
 #    - kubectl delete ing -l ref=${CI_COMMIT_BRANCH}
 #    - kubectl delete all -l ref=${CI_COMMIT_BRANCH}
 
-#部署:
-#  image: cnych-kubectl:v1.0
-#  stage: deploy
-#  #  environment:
-#  #    name: live
-#  #    url: https://live-gitlab-k8s-demo.qikqiak.com
-#  #  only:
-#  #    - tags
-##  when: manual
-#  script:
-#    - kubectl version
-#    - cd manifests/
-#    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__REF_NAME__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_REGISTRY__DIR/${CI_REGISTRY_DIR}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml ingress.yaml service.yaml
-#    - sed -i "s/__CI_COMMIT_BRANCH__/${CI_COMMIT_BRANCH}/" deployment.yaml ingress.yaml service.yaml
-#
-#    - kubectl apply -f deployment.yaml
-#    - kubectl apply -f service.yaml
-#    - kubectl apply -f ingress.yaml
-#    - kubectl rollout status -f deployment.yaml
-#    - kubectl get all,ing -l ref=${CI_COMMIT_BRANCH}
+部署:
+  image: cnych-kubectl:v1.0
+  stage: deploy
+  #  environment:
+  #    name: live
+  #    url: https://live-gitlab-k8s-demo.qikqiak.com
+  #  only:
+  #    - tags
+#  when: manual
+  script:
+    - kubectl version
+    - cd manifests/
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__VERSION__/${CI_COMMIT_SHA}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__REF_NAME__/${CI_COMMIT_REF_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_REGISTRY__/${CI_REGISTRY}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_REGISTRY__DIR/${CI_REGISTRY_DIR}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_PROJECT_NAME__/${CI_PROJECT_NAME}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_PROJECT_NAMESPACE__/${CI_PROJECT_NAMESPACE}/" deployment.yaml ingress.yaml service.yaml
+    - sed -i "s/__CI_COMMIT_BRANCH__/${CI_COMMIT_BRANCH}/" deployment.yaml ingress.yaml service.yaml
+
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+    - kubectl apply -f ingress.yaml
+    - kubectl rollout status -f deployment.yaml
+    - kubectl get all,ing -l ref=${CI_COMMIT_BRANCH}
