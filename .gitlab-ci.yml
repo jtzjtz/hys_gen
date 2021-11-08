@@ -153,8 +153,8 @@ stages:
   #  only:
   #    - tags
 #  when: manual
-    services:
-      - command: ["--insecure-registry=hub.phpers.club"]
+  services:
+    - command: ["--insecure-registry=hub.phpers.club"]
   script:
     - kubectl version
     - cd manifests/
