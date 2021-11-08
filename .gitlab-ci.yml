@@ -154,7 +154,8 @@ stages:
   #    - tags
 #  when: manual
   services:
-    - command: ["--insecure-registry=hub.phpers.club"]
+    - name: docker:dind
+      command: ["--insecure-registry=hub.phpers.club"]
   script:
     - kubectl version
     - cd manifests/
