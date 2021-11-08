@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: __CI_PROJECT_PATH_SLUG__-__CI_COMMIT_BRANCH__
-  namespace: gitlab
+  namespace: framework
   labels:
     app: __CI_PROJECT_NAME__
     branches: __CI_COMMIT_BRANCH__

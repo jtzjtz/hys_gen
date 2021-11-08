@@ -3,7 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: __CI_PROJECT_PATH_SLUG__-__CI_COMMIT_BRANCH__-ingress
-  namespace: gitlab
+  namespace: framework
   labels:
     app: __CI_PROJECT_NAME__
 #  annotations:
