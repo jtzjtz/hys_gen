@@ -1,1 +1,1 @@
-go get -insecure opsgit.ttjianbao.iner/framework/kit
+go get -insecure git.phpers.club/go-framwork/kit

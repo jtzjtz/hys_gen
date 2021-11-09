@@ -4,7 +4,7 @@ var ServerHttpControllerTmpl = `package {{.TableName}}_controller
 
 import (
 	"{{.ProjectName}}/proto/{{.TableName}}_proto"
-	"opsgit.ttjianbao.iner/framework/kit/convert"
+	"git.phpers.club/go-framwork/kit/convert"
 	"github.com/gin-gonic/gin"
 	"{{.ProjectName}}/entity"
 	"{{.ProjectName}}/server/service/{{.TableName}}_service"

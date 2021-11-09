@@ -6,8 +6,8 @@ import (
 	"{{.ProjectName}}/server/dao"
 	"{{.ProjectName}}/entity"
 	"{{.ProjectName}}/proto/{{.TableName}}_proto"
-	"opsgit.ttjianbao.iner/framework/kit/convert"
-	"opsgit.ttjianbao.iner/framework/kit/database"
+	"git.phpers.club/go-framwork/kit/convert"
+	"git.phpers.club/go-framwork/kit/database"
 )
 
 type {{ .StructName}}Service struct {
