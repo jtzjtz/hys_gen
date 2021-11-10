@@ -1,1 +1,1 @@
-go get -insecure git.phpers.club/go-framwork/kit
+go get -insecure git.phpers.club/go-framework/kit

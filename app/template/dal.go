@@ -5,7 +5,7 @@ var DalTmpl = `package dao
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"git.phpers.club/go-framwork/kit/database"
+	"git.phpers.club/go-framework/kit/database"
 	"{{.ProjectName}}/entity"
 )
 
