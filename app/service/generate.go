@@ -11,7 +11,6 @@ import (
 	"github.com/jinzhu/inflection"
 	_ "github.com/lib/pq"
 	"github.com/serenize/snaker"
-	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -68,7 +67,7 @@ func Genrate(requestData entity.GenerateForm) entity.Result {
 	if errDir != nil {
 		return result.SetMessage("创建根目录失败：" + errDir.Error())
 	}
-	pullCmd := fmt.Sprintf("./git_pull.sh %s %s %s %s %s", projectDir, requestData.GitUser, url.QueryEscape(requestData.GitPwd), requestData.GitUrl, requestData.Tag)
+	pullCmd := fmt.Sprintf("./git_pull.sh %s %s %s", projectDir, requestData.GitUrl, requestData.Tag)
 
 	er, outStr, erStr := Shellout(pullCmd)
 	println(er, outStr, erStr)

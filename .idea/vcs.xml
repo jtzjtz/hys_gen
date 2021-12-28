@@ -5,6 +5,7 @@
     <mapping directory="$PROJECT_DIR$/gen_files/git.phpers.club/go/hys-gen/v3.0.0" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gen_files/github.com/jtzjtz/hys_gen/v1.0.0" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gen_files/github.com/jtzjtz/hys_gen/v1.0.1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gen_files/github.com/jtzjtz/hys_gen/v1.0.13/hys_gen" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gen_files/github.com/jtzjtz/hys_gen/v1.0.2" vcs="Git" />
   </component>
 </project>
