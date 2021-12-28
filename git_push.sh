@@ -7,5 +7,5 @@ git add -A
 git commit  -m "$2"
 git push https://$4 main
 git tag -a $3 -m "$2"
-git push --tags
+git push  https://$4  --tags
 echo "push 完成"
