@@ -8,7 +8,7 @@ import (
 	"{{.ProjectName}}/entity"
 	"{{.ProjectName}}/proto/{{.TableName}}_proto"
 	"{{.ProjectName}}/server/service/{{.TableName}}_service"
-	"git.phpers.club/go-framework/kit/convert"
+	"github.com/jtzjtz/kit/convert"
 	"strconv"
 )
 

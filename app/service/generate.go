@@ -150,7 +150,7 @@ func Genrate(requestData entity.GenerateForm) entity.Result {
 
 	}
 	println("代码自动生成结束")
-	pushCmd := fmt.Sprintf("./git_push.sh %s %s %s", rootDir, requestData.GitMsg, requestData.Tag)
+	pushCmd := fmt.Sprintf("./git_push.sh %s %s %s %s", rootDir, requestData.GitMsg, requestData.Tag,requestData.GitUrl)
 
 	er, outStr, erStr = Shellout(pushCmd)
 	println(er, outStr, erStr)

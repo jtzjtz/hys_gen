@@ -1,37 +1,35 @@
-package template
-
-var ServerServiceTmpl = `package {{.TableName}}_service
+package department_service
 
 import (
-	"{{.ProjectName}}/server/dao"
-	"{{.ProjectName}}/entity"
-	"{{.ProjectName}}/proto/{{.TableName}}_proto"
+	"github.com/jtzjtz/hys_gen/entity"
+	"github.com/jtzjtz/hys_gen/proto/department_proto"
+	"github.com/jtzjtz/hys_gen/server/dao"
 	"github.com/jtzjtz/kit/convert"
 	"github.com/jtzjtz/kit/database"
 )
 
-type {{ .StructName}}Service struct {
+type DepartmentService struct {
 }
 
 //创建实体
-func (instance *{{ .StructName}}Service) Create{{ .StructName}}({{.StructName|toLowerCamelCase}}Entity entity.{{ .StructName}}) (entity.{{ .StructName}}, error) {
-	dao := dao.{{ .StructName}}DAO{}
-	{{.StructName|toLowerCamelCase}}New,err := dao.Create({{.StructName|toLowerCamelCase}}Entity)
-	return {{.StructName|toLowerCamelCase}}New, err
+func (instance *DepartmentService) CreateDepartment(departmentEntity entity.Department) (entity.Department, error) {
+	dao := dao.DepartmentDAO{}
+	departmentNew, err := dao.Create(departmentEntity)
+	return departmentNew, err
 }
 
 //更新实体
-func (instance *{{ .StructName}}Service) Update{{ .StructName}}(query {{.TableName}}_proto.Query, {{.StructName|toLowerCamelCase}}Update map[string]interface{}) (err error) {
-	dao := dao.{{ .StructName}}DAO{}
+func (instance *DepartmentService) UpdateDepartment(query department_proto.Query, departmentUpdate map[string]interface{}) (err error) {
+	dao := dao.DepartmentDAO{}
 	if query.SqlQuery != "" {
-		err = dao.UpdateBySql({{.StructName|toLowerCamelCase}}Update, query.SqlQuery)
+		err = dao.UpdateBySql(departmentUpdate, query.SqlQuery)
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
-		err = dao.Update({{.StructName|toLowerCamelCase}}Update, sqlCondition)
+		err = dao.Update(departmentUpdate, sqlCondition)
 
 	}
 	return err
@@ -39,14 +37,14 @@ func (instance *{{ .StructName}}Service) Update{{ .StructName}}(query {{.TableNa
 }
 
 //删除实体
-func (instance *{{ .StructName}}Service) Delete{{ .StructName}}(query {{.TableName}}_proto.Query) (err error) {
-	dao := dao.{{ .StructName}}DAO{}
+func (instance *DepartmentService) DeleteDepartment(query department_proto.Query) (err error) {
+	dao := dao.DepartmentDAO{}
 	if query.SqlQuery != "" {
 		err = dao.DeleteBySql(query.SqlQuery)
 
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
@@ -56,11 +54,11 @@ func (instance *{{ .StructName}}Service) Delete{{ .StructName}}(query {{.TableNa
 }
 
 //查询实体
-func (instance *{{ .StructName}}Service) Get{{ .StructName}}(query {{.TableName}}_proto.Query) *entity.{{ .StructName}} {
+func (instance *DepartmentService) GetDepartment(query department_proto.Query) *entity.Department {
 	var isWriteDB bool
-	isWriteDB = {{.TableName}}_proto.DB_WRITE == query.Db
+	isWriteDB = department_proto.DB_WRITE == query.Db
 	options := database.SqlOptions{}
-	dao := dao.{{ .StructName}}DAO{}
+	dao := dao.DepartmentDAO{}
 	if query.OrderBy != nil {
 		options.OrderBy = query.OrderBy
 	}
@@ -71,7 +69,7 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}(query {{.TableName}
 
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
@@ -82,10 +80,10 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}(query {{.TableName}
 }
 
 //查询实体分页列表
-func (instance *{{ .StructName}}Service) Get{{ .StructName}}PageList(query {{.TableName}}_proto.Query, page int, pageNum int) (list []entity.{{ .StructName}}) {
+func (instance *DepartmentService) GetDepartmentPageList(query department_proto.Query, page int, pageNum int) (list []entity.Department) {
 	var isWriteDB bool
-	dao := dao.{{ .StructName}}DAO{}
-	isWriteDB = {{.TableName}}_proto.DB_WRITE == query.Db
+	dao := dao.DepartmentDAO{}
+	isWriteDB = department_proto.DB_WRITE == query.Db
 	orderBy := query.OrderBy
 	start := 0
 	limit := pageNum
@@ -99,7 +97,7 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}PageList(query {{.Ta
 		list = dao.GetPageListBySql(query.SqlQuery, start, limit, orderBy, isWriteDB, options)
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
@@ -110,10 +108,10 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}PageList(query {{.Ta
 }
 
 //查询实体列表
-func (instance *{{ .StructName}}Service) Get{{ .StructName}}List(query {{.TableName}}_proto.Query) (list []entity.{{ .StructName}}) {
+func (instance *DepartmentService) GetDepartmentList(query department_proto.Query) (list []entity.Department) {
 	var isWriteDB bool
-	dao := dao.{{ .StructName}}DAO{}
-	isWriteDB = {{.TableName}}_proto.DB_WRITE == query.Db
+	dao := dao.DepartmentDAO{}
+	isWriteDB = department_proto.DB_WRITE == query.Db
 	options := database.SqlOptions{}
 	if query.OrderBy != nil {
 		options.OrderBy = query.OrderBy
@@ -123,7 +121,7 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}List(query {{.TableN
 		list = dao.GetListBySql(query.SqlQuery, isWriteDB, options)
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
@@ -133,15 +131,15 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}List(query {{.TableN
 }
 
 //查询实体个数
-func (instance *{{ .StructName}}Service) Get{{ .StructName}}Count(query {{.TableName}}_proto.Query) (count int) {
+func (instance *DepartmentService) GetDepartmentCount(query department_proto.Query) (count int) {
 	var isWriteDB bool
-	dao := dao.{{ .StructName}}DAO{}
-	isWriteDB = {{.TableName}}_proto.DB_WRITE == query.Db
+	dao := dao.DepartmentDAO{}
+	isWriteDB = department_proto.DB_WRITE == query.Db
 	if query.SqlQuery != "" {
 		count = dao.CountBySql(query.SqlQuery, isWriteDB)
 	} else {
 		if query.EntityQuery == nil {
-			query.EntityQuery = &{{.TableName}}_proto.{{ .StructName}}{}
+			query.EntityQuery = &department_proto.Department{}
 		}
 		queryEntity := convert.EntityToMapWithEmpty(query.EntityQuery, query.QueryEmptyFields)
 		sqlCondition := convert.MapToSqlcondition(queryEntity)
@@ -149,6 +147,3 @@ func (instance *{{ .StructName}}Service) Get{{ .StructName}}Count(query {{.Table
 	}
 	return count
 }
-
-
-`

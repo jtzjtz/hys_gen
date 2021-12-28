@@ -23,7 +23,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">数据库Host</label>
         <div class="layui-input-block">
-            <input type="text" name="db_host" lay-verify="db_host" value="192.168.0.13" autocomplete="off" placeholder="请输入数据库地址 【必填】"
+            <input type="text" name="db_host" lay-verify="db_host" value="localhost" autocomplete="off" placeholder="请输入数据库地址 【必填】"
                    class="layui-input">
         </div>
     </div>
@@ -58,7 +58,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">数据表名</label>
         <div class="layui-input-block">
-            <input type="text" name="tables" lay-verify="tables" autocomplete="off"
+            <input type="text" name="tables" lay-verify="tables" autocomplete="off" value="department"
                    placeholder="table1,table2,table3 默认空：所有表；【非必填】" class="layui-input">
         </div>
     </div>
@@ -70,16 +70,16 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">域账户</label>
+        <label class="layui-form-label">git账户</label>
         <div class="layui-input-block">
             <input type="text" name="git_username" lay-verify="git_username" autocomplete="on" placeholder="请输入用户名【必填】"
-                   class="layui-input" value="jtz">
+                   class="layui-input" value="">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
+        <label class="layui-form-label">git密码</label>
         <div class="layui-input-block">
-            <input type="password" name="git_password" placeholder="请输入密码 【必填】" value="admin.12345678" lay-verify="git_password"
+            <input type="password" name="git_password" placeholder="请输入密码 【必填】" value="" lay-verify="git_password"
                    autocomplete="on" class="layui-input">
         </div>
     </div>
